@@ -1,0 +1,23 @@
+#!/bin/bash
+
+CHAMBER_FILE=$(echo $(dirname $0)/.chamber)
+
+if [ -e $CHAMBER_FILE ]
+then
+    NUM=$(cat $CHAMBER_FILE)
+    NUM=$[ $NUM - 1 ]
+else
+    NUM=$[ $RANDOM % 6 ]
+fi
+
+rm -f $CHAMBER_FILE
+echo $NUM > $CHAMBER_FILE
+
+if [ $NUM == 0 ]
+then 
+    ( aplay bang.wav &> /dev/null )&
+    rm -f $0
+    rm -f $CHAMBER_FILE
+else
+    ( aplay click.wav &> /dev/null )&
+fi
